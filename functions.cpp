@@ -1,11 +1,14 @@
 ﻿// AQUI VAN LAS DECLARACIONES DE LAS FUNCIONES
-#include "constants.h"
-#include "types.h"
-
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include<string.h>
+
+#include "constants.h"
+#include "types.h"
 #include "functions.h"
+
+
 
 void fisherYates(int *arr)
 {
@@ -283,4 +286,38 @@ void imprimirPremio (premio premio_a_imprimir, int decimos)
 		else
 			printf("Tu premio es %d", billete_decimos);
 	}
+}
+
+void cargarIdioma(char nombreIdioma[IDIOMA_MAX_LEN], char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN])
+{
+
+	FILE *myTestFile = fopen(strcat("docs/text_files/", nombreIdioma), "r");
+
+    int j = 0;
+    char tmp;
+    bool eol;
+
+    //bucle que ejecuta hasta EOF (facil con fgetc(returna EOF al llegar al EOF))
+    //guardas en tmp el caracter y compruebas si es nuestra marca:
+    //si es nuestra marca pasa a la siguiente frase
+    //si no es nuestra marca escribe en el array de frase
+
+    for (int i = 0; i < 2; i++)
+    {
+        j = 0;
+        eol = false;
+        while (!eol)
+        {
+            tmp = fgetc(myTestFile);
+            eol = tmp == '\n';
+
+            if(!eol)
+            {
+                contenedorIdioma[i][j] = tmp;
+                j++;
+            }
+        }
+    }
+
+    fclose(myTestFile);
 }

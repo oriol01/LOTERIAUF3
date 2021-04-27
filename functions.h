@@ -9,3 +9,7 @@ void premios_emparejamientos(int* premios, int* billetes, arrPremios* contenedor
 void reintegros(arrPremios* contenedor_premios, arrPremios* premios_grandes);
 premio buscar_premio (int tu_billete, int num_decimos, arrPremios* contenedorPremios);
 void imprimirPremio (premio premio_a_imprimir, int decimos);
+
+//cabeceras de las funciones del proyecto uf3
+void cargarIdioma(char nombreIdioma[IDIOMA_MAX_LEN], char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN]);
+void cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN]);

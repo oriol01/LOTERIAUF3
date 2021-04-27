@@ -10,6 +10,8 @@ int main()
 {
     int billetes[NUMERO_BILLETES];
     int premios[TOTAL_PREMIOS];
+    char idioma[NUM_FRASES][FRASES_MAX_LEN];
+    char nombreIidioma[NOMBRE_IDIOMA_MAX_LEN] = "testLenguage.txt";
     int tu_billete;
     int num_decimos;
     int decimos;
@@ -22,6 +24,8 @@ int main()
     premios_emparejamientos(premios, billetes, &contenedor_premios, &premios_grandes);
     aproximaciones(&contenedor_premios, &premios_grandes);
     reintegros(&contenedor_premios, &premios_grandes);
+
+    cargarIdioma(nombreIidioma, idioma);
 
     do
     {
@@ -39,9 +43,6 @@ int main()
 
     } while (numero != 1);
     
-       
-
     
-
     return 0;
 }
