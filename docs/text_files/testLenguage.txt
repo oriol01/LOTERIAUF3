@@ -1,2 +1,2 @@
-primera frase#
-segunda frase#
+primera frase
+segunda frase

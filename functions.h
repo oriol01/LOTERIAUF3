@@ -11,5 +11,8 @@ premio buscar_premio (int tu_billete, int num_decimos, arrPremios* contenedorPre
 void imprimirPremio (premio premio_a_imprimir, int decimos);
 
 //cabeceras de las funciones del proyecto uf3
-void cargarIdioma(char nombreIdioma[IDIOMA_MAX_LEN], char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN]);
 void cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN]);
+void crearSorteo(arrPremios *contenedor_premios);
+void cargarSorteo(arrPremios *contenedor_premios, const char *ano);
+void guardarSorteo(arrPremios *contenedor_premios, const char *ano);
+void myConcatString(char *s1, const char *s2);

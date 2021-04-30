@@ -8,41 +8,39 @@
 
 int main()
 {
-    int billetes[NUMERO_BILLETES];
-    int premios[TOTAL_PREMIOS];
+    int menu;
+    int ano;
+
+    arrPremios contenedor_premios;
     char idioma[NUM_FRASES][FRASES_MAX_LEN];
-    char nombreIidioma[NOMBRE_IDIOMA_MAX_LEN] = "testLenguage.txt";
     int tu_billete;
     int num_decimos;
     int decimos;
-    int numero;
-    arrPremios contenedor_premios;
-    arrPremios premios_grandes;
 
-    fisherYates(billetes);
-    randomizarPremios(premios);
-    premios_emparejamientos(premios, billetes, &contenedor_premios, &premios_grandes);
-    aproximaciones(&contenedor_premios, &premios_grandes);
-    reintegros(&contenedor_premios, &premios_grandes);
 
-    cargarIdioma(nombreIidioma, idioma);
+    cargarIdioma(idioma);
 
-    do
-    {
-        printf("--------= LOTERIA DE NAVIDAD =--------");
-        printf("\nIntroduzca el número del billete: "); 
-        scanf("%d", &tu_billete);
+    // do
+    // {
+    //     printf("--------= LOTERIA DE NAVIDAD =--------");
+    //     printf("\nIntroduzca el número del billete: "); 
+    //     scanf("%d", &tu_billete);
         
-        printf("Introduzca el número de decimos: "); 
-        scanf("%d", &num_decimos);
+    //     printf("Introduzca el número de decimos: ");
+    //     scanf("%d", &num_decimos);
 
-        imprimirPremio (buscar_premio(tu_billete, num_decimos, &contenedor_premios), decimos);
+    //     printf("En que año tuvo lugar el sorteo?: ");
+    //     scanf("%d", &ano);
 
-        printf("Pulse 1 para Salir o cualquier otro numero para introducir otro billete: ");
-        scanf("%d", &numero);
 
-    } while (numero != 1);
+    //     imprimirPremio (buscar_premio(tu_billete, num_decimos, &contenedor_premios), decimos);
+
+    //     printf("Pulse 1 para Salir o cualquier otro numero para introducir otro billete: ");
+    //     scanf("%d", &menu);
+
+    // } while (menu != 1);
     
-    
+    cargarSorteo(&contenedor_premios, "2000");
+
     return 0;
 }

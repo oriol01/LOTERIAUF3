@@ -3,6 +3,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include<string.h>
+#include<unistd.h>
 
 #include "constants.h"
 #include "types.h"
@@ -288,10 +289,10 @@ void imprimirPremio (premio premio_a_imprimir, int decimos)
 	}
 }
 
-void cargarIdioma(char nombreIdioma[IDIOMA_MAX_LEN], char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN])
+void cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN])
 {
 
-	FILE *myTestFile = fopen(strcat("docs/text_files/", nombreIdioma), "r");
+	FILE *myTestFile = fopen(TEST_IDIOMA, "r");
 
     int j = 0;
     char tmp;
@@ -320,4 +321,102 @@ void cargarIdioma(char nombreIdioma[IDIOMA_MAX_LEN], char contenedorIdioma[NUM_F
     }
 
     fclose(myTestFile);
+}
+
+void crearSorteo(arrPremios *contenedor_premios)
+{
+	int billetes[NUMERO_BILLETES];
+    int premios[TOTAL_PREMIOS];
+    arrPremios premios_grandes;
+
+	fisherYates(billetes);
+    randomizarPremios(premios);
+    premios_emparejamientos(premios, billetes, contenedor_premios, &premios_grandes);
+    aproximaciones(contenedor_premios, &premios_grandes);
+    reintegros(contenedor_premios, &premios_grandes);
+}
+
+void cargarSorteo(arrPremios *contenedor_premios, const char *ano)
+{
+	//comprobar si existe
+	char direccion[100] = "docs/bin_files/";
+	myConcatString(direccion, ano);
+
+	int fileExists = access(direccion, F_OK);
+
+	if(fileExists == 0)
+	{
+		//EL ARCHIVO EXISTE ASI QUE LEELO
+		FILE* sorteo = fopen(ano, "rb");
+		int tmp;
+		int i = 0;
+		int j;
+
+		while (fread(&tmp, sizeof(int), 1, sorteo) == 1)
+		{
+			j = 0;
+
+			contenedor_premios->arr[i].billete = tmp;
+			contenedor_premios->len++;
+
+			while (fread(&tmp, sizeof(int), 1, sorteo) == 1 && tmp !=MARCA_SEPARACION)
+			{
+				contenedor_premios->arr[i].premios_billete[j] = tmp;
+				contenedor_premios->arr[i].numPremios++;
+				j++;
+			}
+
+			i++;
+		}
+	}	
+	else
+	{
+		//EL ARCHIVO NO EXISTE CREA EL SORTEO, CARGALO EN MEMORIA, CREA EL ARCHIVO
+		crearSorteo(contenedor_premios);
+		
+		//crearlo en memoria
+		guardarSorteo(contenedor_premios, ano);
+	}
+}
+
+void guardarSorteo(arrPremios *contenedor_premios, const char *ano)
+{
+	const int marcaSeparacion = MARCA_SEPARACION;
+
+	char direccion[100] = "docs/bin_files/";
+	myConcatString(direccion, ano);
+
+	//CREAR ARCHIVO
+	FILE* newFile = fopen(direccion, "wb");
+
+	//LOOPEAR POR contenedor_premios imprimiendo en el archivo
+	for (int i = 0; i < contenedor_premios->len; i++)
+	{
+		//push premio
+		fwrite(&contenedor_premios->arr[i].billete, sizeof(int), 1, newFile);
+
+		for(int j = 0; j < contenedor_premios->arr[i].numPremios; j++)
+		{
+			fwrite(&contenedor_premios->arr[i].premios_billete[j], sizeof(int), 1, newFile);
+		}
+		fwrite(&marcaSeparacion, sizeof(int), 1, newFile);
+	}
+
+	fclose(newFile);
+}
+
+void myConcatString(char *s1, const char *s2)
+{
+	int i = 0;
+	int j = 0;
+
+	while(s1[i]!='\0')
+		i++;
+
+	while(s2[j]!='\0')
+	{
+		s1[i] = s2[j];
+		i++;
+		j++;
+	}
 }

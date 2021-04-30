@@ -28,3 +28,5 @@
 #define NOMBRE_IDIOMA_MAX_LEN 20
 #define FRASES_MAX_LEN 100
 #define IDIOMA_MAX_LEN 20
+#define MARCA_SEPARACION -1
+#define TEST_IDIOMA "docs/text_files/testLenguage.txt"
