@@ -342,33 +342,44 @@ void cargarSorteo(arrPremios *contenedor_premios, const char *ano)
 	char direccion[100] = "docs/bin_files/";
 	myConcatString(direccion, ano);
 
-	int fileExists = access(direccion, F_OK);
+	FILE* sorteo;
 
-	if(fileExists == 0)
+	if(sorteo = fopen(direccion, "rb"))
 	{
 		//EL ARCHIVO EXISTE ASI QUE LEELO
 		FILE* sorteo = fopen(ano, "rb");
 		int tmp;
 		int i = 0;
-		int j;
+		int j = 0;
+		bool primerNumero = true;
 
-		while (fread(&tmp, sizeof(int), 1, sorteo) == 1)
+		while(fread(&tmp, sizeof(int), 1, sorteo))
 		{
-			j = 0;
-
-			contenedor_premios->arr[i].billete = tmp;
-			contenedor_premios->len++;
-
-			while (fread(&tmp, sizeof(int), 1, sorteo) == 1 && tmp !=MARCA_SEPARACION)
+			//numBillete=i, numPremio=j, flagBillete=?
+			
+			//-1 nos avanza al siguiente billete
+				//j=0, i++
+			if(tmp == MARCA_SEPARACION)
 			{
+				j=0;
+				i++;
+				primerNumero = true;
+			}
+			//el primer dato es el billete
+			else if(primerNumero)
+			{
+				contenedor_premios->arr[i].billete=tmp;
+				contenedor_premios->len++;
+				primerNumero = false;
+			}
+			else
+			{	
 				contenedor_premios->arr[i].premios_billete[j] = tmp;
 				contenedor_premios->arr[i].numPremios++;
 				j++;
 			}
-
-			i++;
 		}
-	}	
+	}
 	else
 	{
 		//EL ARCHIVO NO EXISTE CREA EL SORTEO, CARGALO EN MEMORIA, CREA EL ARCHIVO
