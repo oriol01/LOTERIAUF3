@@ -3,7 +3,6 @@
 #include<stdlib.h>
 #include<time.h>
 #include<string.h>
-#include<unistd.h>
 
 #include "constants.h"
 #include "types.h"
@@ -340,7 +339,7 @@ void cargarSorteo(arrPremios *contenedor_premios, const char *ano)
 {
 	//comprobar si existe
 	char direccion[100] = "docs/bin_files/";
-	myConcatString(direccion, ano);
+	strcat(direccion, ano);
 
 	FILE* sorteo;
 
@@ -396,7 +395,7 @@ void guardarSorteo(arrPremios *contenedor_premios, const char *ano)
 	const int marcaSeparacion = MARCA_SEPARACION;
 
 	char direccion[100] = "docs/bin_files/";
-	myConcatString(direccion, ano);
+	strcat(direccion, ano);
 
 	//CREAR ARCHIVO
 	FILE* newFile = fopen(direccion, "wb");
@@ -415,22 +414,6 @@ void guardarSorteo(arrPremios *contenedor_premios, const char *ano)
 	}
 
 	fclose(newFile);
-}
-
-void myConcatString(char *s1, const char *s2)
-{
-	int i = 0;
-	int j = 0;
-
-	while(s1[i]!='\0')
-		i++;
-
-	while(s2[j]!='\0')
-	{
-		s1[i] = s2[j];
-		i++;
-		j++;
-	}
 }
 
 void crearBinTest()
