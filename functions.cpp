@@ -351,10 +351,10 @@ void cargarSorteo(arrPremios *contenedor_premios, const char *ano)
 		int j = 0;
 		bool primerNumero = true;
 
-
 		while(fread(&tmp, sizeof(int), 1, sorteo))
 		{
-			//numBillete=i, numPremio=j, flagBillete=?
+			fread(&tmp, sizeof(int), 1, sorteo);
+			//numBillete=i, numPremio=j, flagBillete=priemerNumero
 			
 			//-1 nos avanza al siguiente billete
 				//j=0, i++
