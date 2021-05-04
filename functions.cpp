@@ -347,11 +347,11 @@ void cargarSorteo(arrPremios *contenedor_premios, const char *ano)
 	if(sorteo = fopen(direccion, "rb"))
 	{
 		//EL ARCHIVO EXISTE ASI QUE LEELO
-		FILE* sorteo = fopen(ano, "rb");
 		int tmp;
 		int i = 0;
 		int j = 0;
 		bool primerNumero = true;
+
 
 		while(fread(&tmp, sizeof(int), 1, sorteo))
 		{
@@ -379,6 +379,7 @@ void cargarSorteo(arrPremios *contenedor_premios, const char *ano)
 				j++;
 			}
 		}
+		fclose(sorteo);
 	}
 	else
 	{
@@ -430,4 +431,34 @@ void myConcatString(char *s1, const char *s2)
 		i++;
 		j++;
 	}
+}
+
+void crearBinTest()
+{
+	FILE* newFile = fopen("docs/bin_files/test", "wb");
+	
+	int tmp = 1;
+	int marca = -1;
+
+	fwrite(&tmp, sizeof(int), 1, newFile);
+	
+	tmp = 2;
+	fwrite(&tmp, sizeof(int), 1, newFile);
+	tmp = 3;
+	fwrite(&tmp, sizeof(int), 1, newFile);
+
+	fwrite(&marca, sizeof(int), 1, newFile);
+
+
+	fwrite(&tmp, sizeof(int), 1, newFile);
+	
+	tmp = 2;
+	fwrite(&tmp, sizeof(int), 1, newFile);
+	tmp = 3;
+	fwrite(&tmp, sizeof(int), 1, newFile);
+
+	fwrite(&marca, sizeof(int), 1, newFile);
+
+
+	fclose(newFile);
 }

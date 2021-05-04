@@ -40,7 +40,7 @@ int main()
 
     // } while (menu != 1);
     
-    cargarSorteo(&contenedor_premios, "2000");
+    cargarSorteo(&contenedor_premios, "test");
 
     return 0;
 }

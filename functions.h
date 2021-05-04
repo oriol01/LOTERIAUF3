@@ -16,3 +16,4 @@ void crearSorteo(arrPremios *contenedor_premios);
 void cargarSorteo(arrPremios *contenedor_premios, const char *ano);
 void guardarSorteo(arrPremios *contenedor_premios, const char *ano);
 void myConcatString(char *s1, const char *s2);
+void crearBinTest();
