@@ -16,3 +16,11 @@ struct arrPremios
 	premio arr[NUMERO_BILLETES];
 	int len = 0;
 };
+
+enum menu{
+	EXIT,
+	INPUT,
+	IDIOMA,
+	COLLA,
+	SORTEO
+};

@@ -8,8 +8,8 @@
 
 int main()
 {
-    int menu;
-    int ano;
+    int ano = -1;
+    int anoPrevio;
 
     arrPremios contenedor_premios;
     char idioma[NUM_FRASES][FRASES_MAX_LEN];
@@ -17,30 +17,61 @@ int main()
     int num_decimos;
     int decimos;
 
+    int menu = IDIOMA;
 
-    cargarIdioma(idioma);
-
-    // do
-    // {
-    //     printf("--------= LOTERIA DE NAVIDAD =--------");
-    //     printf("\nIntroduzca el número del billete: "); 
-    //     scanf("%d", &tu_billete);
+    do
+    {
+        switch (menu)
+        {
+        case INPUT:
+            //seleccion de opcion del menu
+            break;
         
-    //     printf("Introduzca el número de decimos: ");
-    //     scanf("%d", &num_decimos);
+        case IDIOMA:
+            //selector idioma
+            menu = SORTEO;
+            break;
 
-    //     printf("En que año tuvo lugar el sorteo?: ");
-    //     scanf("%d", &ano);
+        case COLLA:
+            //menu colla
+            break;
+        
+        case SORTEO:
+            //loop pedir billete
+            do
+            {
+                //pedir ano
+                printf("introduzca el ano: ");
+                anoPrevio = ano;
+                scanf("%d", &ano);
+                    //esta cargado ese ano
+                        //Y -> nada
+                        //N -> cargalo
+                if(ano != anoPrevio)
+                    cargarSorteo(&contenedor_premios, ano);
+                
+                printf("introduzca un billete: ");
+                scanf("%d", &tu_billete);
+                printf("introduzca los decimos: ");
+                scanf("%d", &decimos);
 
+                imprimirPremio(buscar_premio(&contenedor_premios, tu_billete), decimos);
+                
+                printf("Introduzca 1 para salir: ");
+                scanf("%d", &menu);
+                //pedir billete
+                //imprimir premios
+            }
+            while (menu != INPUT);
 
-    //     imprimirPremio (buscar_premio(tu_billete, num_decimos, &contenedor_premios), decimos);
-
-    //     printf("Pulse 1 para Salir o cualquier otro numero para introducir otro billete: ");
-    //     scanf("%d", &menu);
-
-    // } while (menu != 1);
+            
+            break;
+        default:
+            //mensaje de error
+            printf("Error, opcion introducida inexistente, vuelva a introducir la opcion");
+            break;
+        }
+    } while (menu != EXIT);
     
-    cargarSorteo(&contenedor_premios, "test");
-
     return 0;
 }

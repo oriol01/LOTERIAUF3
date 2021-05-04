@@ -7,12 +7,12 @@ void aproximaciones(arrPremios* contenedor_premios,  arrPremios* premios_grandes
 void pushPremio(arrPremios* contenedorPremios, int _billete, int _premio);
 void premios_emparejamientos(int* premios, int* billetes, arrPremios* contenedorPremios, arrPremios* premiosGrandes);
 void reintegros(arrPremios* contenedor_premios, arrPremios* premios_grandes);
-premio buscar_premio (int tu_billete, int num_decimos, arrPremios* contenedorPremios);
+premio buscar_premio (arrPremios* contenedorPremios, int tu_billete);
 void imprimirPremio (premio premio_a_imprimir, int decimos);
 
 //cabeceras de las funciones del proyecto uf3
 void cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN]);
 void crearSorteo(arrPremios *contenedor_premios);
-void cargarSorteo(arrPremios *contenedor_premios, const char *ano);
+void cargarSorteo(arrPremios *contenedor_premios, int ano);
 void guardarSorteo(arrPremios *contenedor_premios, const char *ano);
 void crearBinTest();

@@ -233,7 +233,7 @@ void premios_emparejamientos(int* premios, int* billetes, arrPremios* contenedor
 	}
 }
 
-premio buscar_premio (int tu_billete, int num_decimos, arrPremios* contenedorPremios)
+premio buscar_premio (arrPremios* contenedorPremios, int tu_billete)
 {
 	int i = 0;
 	bool encontrado = false;
@@ -335,11 +335,15 @@ void crearSorteo(arrPremios *contenedor_premios)
     reintegros(contenedor_premios, &premios_grandes);
 }
 
-void cargarSorteo(arrPremios *contenedor_premios, const char *ano)
+void cargarSorteo(arrPremios *contenedor_premios, int ano)
 {
 	//comprobar si existe
-	char direccion[100] = "docs/bin_files/";
-	strcat(direccion, ano);
+	char direccion[100] = "docs/bin_files/"; //TODO: CONVERTIR EN CONSTANTES
+	char anoToString[100];
+
+	sprintf(anoToString, "%d", ano);
+
+	strcat(direccion, anoToString);
 
 	FILE* sorteo;
 
@@ -378,6 +382,7 @@ void cargarSorteo(arrPremios *contenedor_premios, const char *ano)
 				j++;
 			}
 		}
+		
 		fclose(sorteo);
 	}
 	else
@@ -386,7 +391,7 @@ void cargarSorteo(arrPremios *contenedor_premios, const char *ano)
 		crearSorteo(contenedor_premios);
 		
 		//crearlo en memoria
-		guardarSorteo(contenedor_premios, ano);
+		guardarSorteo(contenedor_premios, anoToString);
 	}
 }
 
