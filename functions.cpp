@@ -288,11 +288,14 @@ void imprimirPremio (premio premio_a_imprimir, int decimos)
 	}
 }
 
-void cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN])
+bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma[100])
 {
-
-	FILE *myTestFile = fopen(TEST_IDIOMA, "r");
-
+	char direccion[200] = "docs/text_files/";
+	strcat(direccion, idioma);
+	strcat(direccion, ".txt");
+	
+	FILE *myTestFile;
+	
     int j = 0;
     char tmp;
     bool eol;
@@ -302,24 +305,31 @@ void cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN])
     //si es nuestra marca pasa a la siguiente frase
     //si no es nuestra marca escribe en el array de frase
 
-    for (int i = 0; i < 2; i++)
-    {
-        j = 0;
-        eol = false;
-        while (!eol)
-        {
-            tmp = fgetc(myTestFile);
-            eol = tmp == '\n';
 
-            if(!eol)
-            {
-                contenedorIdioma[i][j] = tmp;
-                j++;
-            }
-        }
-    }
+	if(myTestFile = fopen(direccion, "r"))
+	{
+		for (int i = 0; i < 2; i++)
+		{
+			j = 0;
+			eol = false;
+			while (!eol)
+			{
+				tmp = fgetc(myTestFile);
+				eol = tmp == '\n';
 
-    fclose(myTestFile);
+				if(!eol)
+				{
+					contenedorIdioma[i][j] = tmp;
+					j++;
+				}
+			}
+		}
+
+		fclose(myTestFile);
+		return true;
+	}
+
+		return false;
 }
 
 void crearSorteo(arrPremios *contenedor_premios)
