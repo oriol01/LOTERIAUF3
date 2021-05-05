@@ -26,23 +26,23 @@ int main()
         {
         case INPUT:
             //seleccion de opcion del menu
-            printf("1: SORTEO\n"); //MENU_SORTEO
-            printf("2: COLLES\n"); //MENU_COLLES 
-            printf("3: IDIOMA\n"); //MENU_IDIOMA
-            printf("4: EXIT\n");   //MENU_EXIT
-            printf("Elige un modo:\n"); //MENU_CHOOSE
+            printf("%s\n", idioma[MENU_SORTEO]); //MENU_SORTEO
+            printf("%s\n", idioma[MENU_COLLES]); //MENU_COLLES 
+            printf("%s\n", idioma[MENU_IDIOMA]); //MENU_IDIOMA
+            printf("%s\n", idioma[MENU_EXIT]);   //MENU_EXIT
+            printf("%s\n", idioma[MENU_CHOOSE]); //MENU_CHOOSE
             scanf("%d", &menu);
             break;
         
         case IDIOMA:
             //selector idioma
-            printf("Seleccione el idioma: \n"); //IDIOMA_SELECT
+            printf("Seleccione el idioma: \n"); 
             printf("\tEspañol\n");
             scanf("%s", idiomaUser);
             
             if(cargarIdioma(idioma, idiomaUser) == false)
             {
-                printf("idioma elegido inexistente, selecciome idioma de nuevo\n"); //IDIOMA_ERR
+                printf("%s\n", idioma[IDIOMA_ERR]); //IDIOMA_ERR
                 menu = IDIOMA;
                 break;
             }
@@ -59,7 +59,7 @@ int main()
             do
             {
                 //pedir ano
-                printf("introduzca el ano: "); //SORTEO_ANO
+                printf("%s\n", idioma[SORTEO_ANO]); //SORTEO_ANO
                 anoPrevio = ano;
                 scanf("%d", &ano);
                     //esta cargado ese ano
@@ -68,14 +68,14 @@ int main()
                 if(ano != anoPrevio)
                     cargarSorteo(&contenedor_premios, ano);
                 
-                printf("introduzca un billete: "); //SORTEO_BILLETE
+                printf("%s\n", idioma[SORTEO_BILLETE]); //SORTEO_BILLETE
                 scanf("%d", &tu_billete);
-                printf("introduzca los decimos: "); //SORTEO_DECIMOS
+                printf("%s\n", idioma[SORTEO_DECIMOS]); //SORTEO_DECIMOS
                 scanf("%d", &decimos);
 
                 imprimirPremio(buscar_premio(&contenedor_premios, tu_billete), decimos); //TODO OBSOLETO, IMPRIMIR EN MAIN
                 
-                printf("Introduzca 0 para salir: "); //SORTEO_EXIT
+                printf("%s\n", idioma[SORTEO_EXIT]); //SORTEO_EXIT
                 scanf("%d", &menu);
                 //pedir billete
                 //imprimir premios
@@ -86,7 +86,7 @@ int main()
             break;
         default:
             //mensaje de error
-            printf("Error, opcion introducida inexistente, vuelva a introducir la opcion"); //ERROR
+            printf("%s\n", idioma[ERROR]); //ERROR
             break;
         }
     } while (menu != EXIT);

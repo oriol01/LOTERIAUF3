@@ -24,7 +24,7 @@
 #define CENTENAS 1000
 
 //UF3
-#define NUM_FRASES 2
+#define NUM_FRASES 11
 #define NOMBRE_IDIOMA_MAX_LEN 20
 #define FRASES_MAX_LEN 100
 #define IDIOMA_MAX_LEN 20

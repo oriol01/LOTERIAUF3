@@ -308,7 +308,7 @@ bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma
 
 	if(myTestFile = fopen(direccion, "r"))
 	{
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < NUM_FRASES; i++)
 		{
 			j = 0;
 			eol = false;
