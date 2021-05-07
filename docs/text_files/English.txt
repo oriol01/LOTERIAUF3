@@ -1,0 +1,15 @@
+1: RAFFLE
+2: GROUPS
+3: SELECT LENGUAGE
+4: EXIT
+Choose one of the options shown above:
+The lenguage you introduced doesn't exist, introduce a lenguge in the list above.
+Enter the year of the raffle you want to check: 
+Enter your ticket number: 
+Enter the number of participations you have: 
+Press 0 to exit or any other number to continue.
+You entered a non-existing option, please introduce an option from the list above
+Your ticket was not awarded any prize ;(
+The total sum of your awards is: 
+Your award is: 
+ 
