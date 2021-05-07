@@ -15,4 +15,3 @@ bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma
 void crearSorteo(arrPremios *contenedor_premios);
 void cargarSorteo(arrPremios *contenedor_premios, int ano);
 void guardarSorteo(arrPremios *contenedor_premios, const char *ano);
-void crearBinTest();

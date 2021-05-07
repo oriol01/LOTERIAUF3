@@ -13,7 +13,8 @@ int main()
 
     arrPremios contenedor_premios;
     char idioma[NUM_FRASES][FRASES_MAX_LEN];
-    char idiomaUser[100];
+    char idiomaUser[LONGITUD_IDIOMA];
+    premio premio_a_imprimir;
     int tu_billete;
     int num_decimos;
     int decimos;
@@ -73,13 +74,40 @@ int main()
                 printf("%s\n", idioma[SORTEO_DECIMOS]); //SORTEO_DECIMOS
                 scanf("%d", &decimos);
 
-                imprimirPremio(buscar_premio(&contenedor_premios, tu_billete), decimos); //TODO OBSOLETO, IMPRIMIR EN MAIN
-                
-                printf("%s\n", idioma[SORTEO_EXIT]); //SORTEO_EXIT
-                scanf("%d", &menu);
-                //pedir billete
-                //imprimir premios
-            }
+                premio_a_imprimir = buscar_premio(&contenedor_premios, tu_billete);
+                if (premio_a_imprimir.numPremios == 0)
+                {
+                    // Premio vacío.
+                    printf("%s \n", idioma[NO_PREMIADO]); //NO_PREMIADO
+                } else
+                {
+                    // Premio lleno.
+                    // 1. Sumar premios.
+                    int sum = 0;
+                    int billete_decimos;
+
+                    for (int i = 0; i< premio_a_imprimir.numPremios; i++)
+                    {
+                        sum += premio_a_imprimir.premios_billete [i];
+                    }
+                    
+                    // 2. Décimos.
+                    billete_decimos = sum*(decimos/10);
+
+                    // 3. Imprimir.	
+                    if (billete_decimos =! 10 && decimos >= 0)
+                        printf("%s%d", idioma[SORTEO_VARIOS_PREMIOS], billete_decimos);//SORTEO_VARIOS_PREMIOS
+                    
+                    else
+                        printf("%s%d",idioma[SORTEO_UN_PREMIO], billete_decimos); //SORTEO_UN_PREMIO
+                }                
+                    
+                    
+                    printf("%s\n", idioma[SORTEO_EXIT]); //SORTEO_EXIT
+                    scanf("%d", &menu);
+                    //pedir billete
+                    //imprimir premios
+                }
             while (menu != INPUT);
 
             

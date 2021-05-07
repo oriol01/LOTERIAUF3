@@ -84,7 +84,6 @@ void aproximaciones(arrPremios* contenedor_premios,  arrPremios* premios_grandes
 	premio Premio2 = premios_grandes->arr[1];
 	premio Premio3 = premios_grandes->arr[2];
 
-	//TODO: contemplar la posibilidad de billete 0 y billete NUMERO_BILLETE
 	pushPremio(contenedor_premios, Premio1.billete -1, APROXIMACION_1);
 	pushPremio(contenedor_premios, Premio1.billete +1, APROXIMACION_1);
 
@@ -263,7 +262,7 @@ void imprimirPremio (premio premio_a_imprimir, int decimos)
 	if (premio_a_imprimir.numPremios == 0)
 	{
 		// Premio vacío.
-		printf("Tu número no ha sido premiado ;( \n");
+		printf("Tu número no ha sido premiado ;( \n"); //NO_PREMIADO
 	} else
 	{
 		// Premio lleno.
@@ -281,16 +280,16 @@ void imprimirPremio (premio premio_a_imprimir, int decimos)
 
 		// 3. Imprimir.	
 		if (billete_decimos =! 10 && decimos >= 0)
-			printf("La suma total de los decimos premiados es: %d", billete_decimos);
+			printf("La suma total de los decimos premiados es: %d", billete_decimos);//SORTEO_VARIOS_PREMIOS
 		
 		else
-			printf("Tu premio es %d", billete_decimos);
+			printf("Tu premio es %d", billete_decimos); //SORTEO_UN_PREMIO
 	}
 }
 
-bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma[100])
+bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma[LONGITUD_IDIOMA]) //todo
 {
-	char direccion[200] = "docs/text_files/";
+	char direccion[LONGITUD_DIRECCION] = "docs/text_files/";
 	strcat(direccion, idioma);
 	strcat(direccion, ".txt");
 	
@@ -348,12 +347,13 @@ void crearSorteo(arrPremios *contenedor_premios)
 void cargarSorteo(arrPremios *contenedor_premios, int ano)
 {
 	//comprobar si existe
-	char direccion[100] = "docs/bin_files/"; //TODO: CONVERTIR EN CONSTANTES
-	char anoToString[100];
+	char direccion[LONGITUD_DIRECCION] = "docs/bin_files/sorteos";
+	char anoToString[LONGITUD_DIRECCION];
 
 	sprintf(anoToString, "%d", ano);
 
 	strcat(direccion, anoToString);
+	strcat(direccion, ".dat");
 
 	FILE* sorteo;
 
@@ -409,8 +409,9 @@ void guardarSorteo(arrPremios *contenedor_premios, const char *ano)
 {
 	const int marcaSeparacion = MARCA_SEPARACION;
 
-	char direccion[100] = "docs/bin_files/";
+	char direccion[LONGITUD_DIRECCION] = "docs/bin_files/sorteos/";
 	strcat(direccion, ano);
+	strcat(direccion, ".dat");
 
 	//CREAR ARCHIVO
 	FILE* newFile = fopen(direccion, "wb");
@@ -427,36 +428,6 @@ void guardarSorteo(arrPremios *contenedor_premios, const char *ano)
 		}
 		fwrite(&marcaSeparacion, sizeof(int), 1, newFile);
 	}
-
-	fclose(newFile);
-}
-
-void crearBinTest()
-{
-	FILE* newFile = fopen("docs/bin_files/test", "wb");
-	
-	int tmp = 1;
-	int marca = -1;
-
-	fwrite(&tmp, sizeof(int), 1, newFile);
-	
-	tmp = 2;
-	fwrite(&tmp, sizeof(int), 1, newFile);
-	tmp = 3;
-	fwrite(&tmp, sizeof(int), 1, newFile);
-
-	fwrite(&marca, sizeof(int), 1, newFile);
-
-
-	fwrite(&tmp, sizeof(int), 1, newFile);
-	
-	tmp = 2;
-	fwrite(&tmp, sizeof(int), 1, newFile);
-	tmp = 3;
-	fwrite(&tmp, sizeof(int), 1, newFile);
-
-	fwrite(&marca, sizeof(int), 1, newFile);
-
 
 	fclose(newFile);
 }
