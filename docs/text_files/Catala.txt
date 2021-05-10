@@ -1,9 +1,9 @@
 1: SORTEIG
-2: COLLES
-3: SELECCIONA IDIOMA
-4: SURT
+2: CREAR COLLA
+3: LLEGIR COLLA
+4: SELECCIONA IDIOMA
+5: SURT
 Tria una de les opcions impreses per pantalla: 
-El idioma triat no existeix, tri un que surti per pantalla
 Escriu l'any del sorteig a comprobar: 
 Intrudueix el numero del bitllet: 
 Intrudueix el numero de decims: 

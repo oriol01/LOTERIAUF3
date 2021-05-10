@@ -15,3 +15,8 @@ bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma
 void crearSorteo(arrPremios *contenedor_premios);
 void cargarSorteo(arrPremios *contenedor_premios, int ano);
 void guardarSorteo(arrPremios *contenedor_premios, const char *ano);
+void guardarColla(colla *collaActual);
+void leerColla(colla *collaLectura);
+void quitarSalto(char * nom);
+void pushPersona(colla *collaActual);
+int checkUnique(char nombre[LONG_NOM_COLLA]);

@@ -21,6 +21,13 @@ int main()
 
     int menu = IDIOMA;
 
+    int masGente=1;
+    int personasIntroducidas;
+    char sino;
+    int final;
+    int importeCorrecto=0;
+    colla collaActual;
+
     do
     {
         switch (menu)
@@ -33,6 +40,7 @@ int main()
             printf("%s\n", idioma[MENU_EXIT]);   //MENU_EXIT
             printf("%s\n", idioma[MENU_CHOOSE]); //MENU_CHOOSE
             scanf("%d", &menu);
+            getchar();
             break;
         
         case IDIOMA:
@@ -43,7 +51,7 @@ int main()
             
             if(cargarIdioma(idioma, idiomaUser) == false)
             {
-                printf("%s\n", idioma[IDIOMA_ERR]); //IDIOMA_ERR
+                printf("Error al introducir el idioma, error al introduïr l'idioma / Error when inputting the lenguage\n"); //IDIOMA_ERR
                 menu = IDIOMA;
                 break;
             }
@@ -51,10 +59,55 @@ int main()
             menu = INPUT;
             break;
 
-        case COLLA:
-            //menu colla
+        case GUARDAR_COLLA:
+            final=1;
+            while(final){
+                printf("Introdueix el nom de la colla: ");
+                fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
+
+                if(checkUnique(collaActual.nomcolla))
+                {
+                    printf("El nom introduït ja existeix, torna a intentar-ho.\n");
+                    final=0;
+                }
+                else
+                {
+                    printf("A quin any esta participant aquesta colla? ");
+                    scanf("%d" , &collaActual.ano);
+                    getchar();
+                    pushPersona(&collaActual);
+                    printf("Vols introduïr una altra colla? S/N\n");
+                    scanf("%c" , &sino);
+                    switch (sino)
+                    {
+                    case 'n':
+                        final=0;
+                    case 'N':
+                        final=0;  
+                    default:
+                        break;
+                    }
+                }
+            }
+        menu = INPUT;
+        break;
+
+        case LEER_COLLA:
+            printf("Introdueïx el nom de la colla que vols llegir: ");
+            fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
+			quitarSalto(collaActual.nomcolla);
+
+            leerColla(&collaActual);
+            menu=INPUT;
             break;
-        
+        /*
+        case PUSH_PERSONA:
+            printf("Introduce el nombre de la colla en el que quieres introducir una persona: ");
+            fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
+            pushPersona(&collaActual);
+            menu=INPUT;
+            break;
+        */
         case SORTEO:
             //loop pedir billete
             do

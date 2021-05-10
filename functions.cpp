@@ -431,3 +431,170 @@ void guardarSorteo(arrPremios *contenedor_premios, const char *ano)
 
 	fclose(newFile);
 }
+
+void guardarColla(colla *collaActual)
+{
+    int len;
+    char nomficher[LONG_NOM_COLLA];
+
+    FILE *fp;
+
+	quitarSalto(collaActual->nomcolla);
+    
+	strcpy(nomficher, collaActual->nomcolla);
+    strcat(nomficher,".dat");
+
+    fp=fopen(nomficher,"wb");
+
+    fwrite(&collaActual->ano,sizeof(int),1,fp);
+    fwrite(&collaActual->numpersones,sizeof(int),1,fp);
+    fwrite(&collaActual->import_total,sizeof(int),1,fp);
+
+
+    for(int i=0;i<collaActual->numpersones;i++)
+    {
+        /*
+        len=strlen(collaActual->persones[i].nom);
+        fwrite(&len,sizeof(int),1,fp);
+        fwrite(collaActual->persones[i].nom,sizeof(char),len,fp);
+        fwrite(&collaActual->persones[i].numlot,sizeof(int),1,fp);
+        fwrite(&collaActual->persones[i].import,sizeof(int),1,fp);
+        */
+       fwrite(&collaActual->persones[i],sizeof(struct persona),1,fp);
+    }
+    fclose(fp);
+}
+
+void leerColla(colla *collaLectura)
+{
+    FILE *fp;
+    int len;
+    char nomficher[LONG_NOM_COLLA];
+	
+    strcpy(nomficher, collaLectura->nomcolla);
+    strcat(nomficher,".dat");
+	
+
+	if(fp=fopen(nomficher,"rb"))
+	{
+
+		fread(&collaLectura->ano, sizeof(int), 1, fp);
+		fread(&collaLectura->numpersones,sizeof(int), 1, fp);
+		fread(&collaLectura->import_total,sizeof(int),1,fp);
+
+		for(int i=0;i<collaLectura->numpersones;i++)
+		{
+			/*
+			fread(&len, sizeof(int), 1, fp);
+			fread(&collaLectura->persones[i].nom,sizeof(char),len,fp);
+			fread(&collaLectura->persones[i].numlot,sizeof(int),1,fp);
+			fread(&collaLectura->persones[i].import,sizeof(int),1,fp);
+			*/
+			fread(&collaLectura->persones[i],sizeof(struct persona),1,fp);
+			quitarSalto(collaLectura->persones[i].nom);
+
+		}
+
+		//La parte que viene a continuacion es para comprovar si lee correctamente la informacion.
+
+		printf("Nom: %s\nAny: %d\nNumPers:%d \nImportTot:%d \n", collaLectura->nomcolla, collaLectura->ano, collaLectura->numpersones, collaLectura->import_total);
+	
+		for(int i=0;i<collaLectura->numpersones;i++)
+		{
+		//	quitar_Salto(collaLectura->persones[i].nom);
+			printf("Nom: [%s],NumLot: [%d],Import: [%d].\n", collaLectura->persones[i].nom, collaLectura->persones[i].numlot, collaLectura->persones[i].import);
+		}
+
+		fclose(fp);
+	}
+	else
+	{
+		printf("No s'ha trobat la colla introduïda, si us plau torna a intentar-ho.\n");	
+	}
+	
+
+};
+
+void quitarSalto(char * nom){
+	int i;
+	int len=(strlen(nom));
+	for(i=0;nom[i]!='\0'&&i<=len;i++){
+		if(nom[i]=='\n'){
+			nom[i]='\0';
+			i=len;
+		}
+	}
+
+}
+
+void pushPersona(colla *collaActual)
+{
+	int correcto;
+	int importeCorrecto;
+	int masGente=1;
+	char sino;
+	char nomficher[LONG_NOM_COLLA];
+    
+	strcpy(nomficher, collaActual->nomcolla);
+    strcat(nomficher,".dat");
+	
+	if(fopen(nomficher,"rb")){
+	leerColla(collaActual);}
+
+	while(masGente){
+		correcto=0;
+		importeCorrecto=0;
+		printf("Introduce el nombre de la persona que quieres introducir: ");
+		fgets(collaActual->persones[collaActual->numpersones].nom, LONG_NOM_PERSONA, stdin);
+		printf("Introdueix el seu nº de loteria: ");
+		scanf("%d" , &collaActual->persones[collaActual->numpersones].numlot);
+		printf("Introdueix el seu import: ");
+		scanf("%d" , &collaActual->persones[collaActual->numpersones].import);
+			while(!importeCorrecto)
+			{
+				if(collaActual->persones[collaActual->numpersones].import%5!=0)
+				{
+					printf("Si us plau introdueix un import multiple de 5: ");
+					scanf("%d" , &collaActual->persones[collaActual->numpersones].import);
+				}
+				else if((collaActual->persones[collaActual->numpersones].import>60)||(collaActual->persones[collaActual->numpersones].import<5))           // Checkeamos que el importe sea multiple de 5 como pide el enunciado
+				{
+					printf("Si us plau introdueix un import minim de 5 o maxim de 60: ");   //Checkeamos maximo y minimo del importe.
+					scanf("%d" , &collaActual->persones[collaActual->numpersones].import);
+				}
+				else
+				{
+					collaActual->import_total+=collaActual->persones[collaActual->numpersones].import;
+					importeCorrecto=1;
+				}
+			}
+		getchar();
+		printf("Vols introduïr una altra persona a aquesta colla? S/N\n");
+		scanf("%c" , &sino);
+		getchar();
+		collaActual->numpersones++;
+		if(sino=='n'||sino=='N')
+		{
+			masGente=0;
+		}
+	}
+	guardarColla(collaActual);
+}
+
+int checkUnique(char nombre[LONG_NOM_COLLA])
+{	FILE *fp;
+	char nombrefichero[LONG_NOM_COLLA];
+	strcpy(nombrefichero,nombre);
+	quitarSalto(nombrefichero);
+	strcat(nombrefichero,".dat");
+
+	if(fp=fopen(nombrefichero,"rb"))
+	{
+		fclose(fp);
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}	
+}

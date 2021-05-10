@@ -1,9 +1,9 @@
 1: RAFFLE
-2: GROUPS
-3: SELECT LENGUAGE
-4: EXIT
+2: CREATE GROUPS
+3: READ GROUPS
+4: SELECT LENGUAGE
+5: EXIT
 Choose one of the options shown above:
-The lenguage you introduced doesn't exist, introduce a lenguge in the list above.
 Enter the year of the raffle you want to check: 
 Enter your ticket number: 
 Enter the number of participations you have: 
