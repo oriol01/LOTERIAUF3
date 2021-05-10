@@ -18,6 +18,10 @@ void guardarSorteo(arrPremios *contenedor_premios, const char *ano);
 void guardarColla(colla *collaActual);
 bool leerColla(colla *collaLectura);
 void quitarSalto(char * nom);
-void pushPersona(colla *collaActual);
-int checkUnique(char nombre[LONG_NOM_COLLA]);
 void pushPersona(colla *collaActual, char _nombre[LONG_NOM_PERSONA], int _numlot, int _import);
+int checkUnique(char nombre[LONG_NOM_COLLA]); //TODO haz que sea un bool
+void pushPersona(colla *collaActual, char _nombre[LONG_NOM_PERSONA], int _numlot, int _import);
+bool introducirPersonas(colla *collaActual);
+void printResults(colla *collaActual, arrPremios *numsPremios);
+int sumaPremios(arrPremios *contenedor_premios, int billete);
+

@@ -25,7 +25,7 @@ int main()
 
     int menu = IDIOMA;
 
-    int masGente=1;
+    int masGente;
     int personasIntroducidas;
     char sino;
     int final;
@@ -63,38 +63,38 @@ int main()
             menu = INPUT;
             break;
 
-        case GUARDAR_COLLA:
-            final=1;
-            while(final){
-                printf("Introdueix el nom de la colla: ");
-                fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
+        // case GUARDAR_COLLA:
+        //     final=1;
+        //     while(final){
+        //         printf("Introdueix el nom de la colla: ");
+        //         fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
 
-                if(checkUnique(collaActual.nomcolla))
-                {
-                    printf("El nom introduït ja existeix, torna a intentar-ho.\n");
-                    final=0;
-                }
-                else
-                {
-                    printf("A quin any esta participant aquesta colla? ");
-                    scanf("%d" , &collaActual.ano);
-                    getchar();
-                    pushPersona(&collaActual);
-                    printf("Vols introduïr una altra colla? S/N\n");
-                    scanf("%c" , &sino);
-                    switch (sino)
-                    {
-                    case 'n':
-                        final=0;
-                    case 'N':
-                        final=0;  
-                    default:
-                        break;
-                    }
-                }
-            }
-        menu = INPUT;
-        break;
+        //         if(checkUnique(collaActual.nomcolla))
+        //         {
+        //             printf("El nom introduït ja existeix, torna a intentar-ho.\n");
+        //             final=0;
+        //         }
+        //         else
+        //         {
+        //             printf("A quin any esta participant aquesta colla? ");
+        //             scanf("%d" , &collaActual.ano);
+        //             getchar();
+        //             pushPersona(&collaActual);
+        //             printf("Vols introduïr una altra colla? S/N\n");
+        //             scanf("%c" , &sino);
+        //             switch (sino)
+        //             {
+        //             case 'n':
+        //                 final=0;
+        //             case 'N':
+        //                 final=0;  
+        //             default:
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // menu = INPUT;
+        // break;
 
         case COLLA:
 
@@ -123,6 +123,15 @@ int main()
                     //PREGUNTAR SI EXTRA GENTE
                         //Y
                             //INTRODUCIR EXTRA GENTE
+
+                cargarSorteo(&contenedor_premios, collaActual.ano);
+                printResults(&collaActual, &contenedor_premios);
+                printf("Desea introducir a mas personas, pulse 1 para hacerlo: ");
+                getchar();
+                scanf("%d", &masGente);
+
+                if(masGente == 1)
+                    while (introducirPersonas(&collaActual));
             }
             else
             {
@@ -130,10 +139,17 @@ int main()
                     //GUARDAR
                     //MOSTRAR
                     //PREGUNTAR SI MAS
-
+                do{
+                    while(introducirPersonas(&collaActual));
+                    //MOSTRAR
+                    getchar();
+                    printf("pulse 1 para introducir mas gente: ");
+                    scanf("%d", &masGente);
+                } while (masGente == 1);
+                    
             }
 
-            leerColla(&collaActual);
+            guardarColla(&collaActual);
             menu=INPUT;
             break;
         /*
@@ -204,6 +220,7 @@ int main()
         default:
             //mensaje de error
             printf("%s\n", idioma[ERROR]); //ERROR
+            menu = INPUT;
             break;
         }
     } while (menu != EXIT);

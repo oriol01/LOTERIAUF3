@@ -1,1 +1,0 @@
-LOTERIAUF3

@@ -1,8 +1,7 @@
 1: SORTEO
-2: CREAR GRUPOS
-3: LEER GRUPOS
-4: SELECCIONAR IDIOMA
-5: SALIR
+2: GRUPOS
+3: SELECCIONAR IDIOMA
+4: SALIR
 Eliga una de las opciones impresas por pantalla: 
 Escriba el año del sorteo a comprobar:
 Introduzca el numero de billete: 

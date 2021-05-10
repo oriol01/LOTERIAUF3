@@ -18,10 +18,10 @@ struct arrPremios
 };
 
 enum menu{
-	EXIT = 5,
+	EXIT = 4,
 	INPUT = 0,
-	IDIOMA = 4,
-	COLLA = 3,
+	IDIOMA = 3,
+	COLLA = 2,
 	SORTEO = 1
 };
 
@@ -46,6 +46,7 @@ struct persona
     char nom[LONG_NOM_PERSONA];
     int numlot;
     int import;
+	int premio;
 };
 
 struct colla
