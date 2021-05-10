@@ -34,3 +34,8 @@
 #define LONG_NOM_PERSONA 30
 #define LONG_COLLA 50
 #define LONG_NOM_COLLA 30
+#define DIRECCION_IDIOMAS "docs/text_files"
+#define DIRECCION_SORTEOS "docs/bin_files/sorteos"
+#define DIRECCION_COLLAS "docs/bin_files/collas"
+//TODO asegurarse que estan bien construidas las direcciones, posible falta de /
+#define EXT_BIN ".dat"

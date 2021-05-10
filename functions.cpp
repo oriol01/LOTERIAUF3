@@ -259,6 +259,8 @@ premio buscar_premio (arrPremios* contenedorPremios, int tu_billete)
 
 void imprimirPremio (premio premio_a_imprimir, int decimos)
 {
+	//TODO esto esta obsoleto diria
+
 	if (premio_a_imprimir.numPremios == 0)
 	{
 		// Premio vacío.
@@ -287,9 +289,9 @@ void imprimirPremio (premio premio_a_imprimir, int decimos)
 	}
 }
 
-bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma[LONGITUD_IDIOMA]) //todo
+bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma[LONGITUD_IDIOMA])
 {
-	char direccion[LONGITUD_DIRECCION] = "docs/text_files/";
+	char direccion[LONGITUD_DIRECCION] = DIRECCION_IDIOMAS;
 	strcat(direccion, idioma);
 	strcat(direccion, ".txt");
 	
@@ -347,13 +349,14 @@ void crearSorteo(arrPremios *contenedor_premios)
 void cargarSorteo(arrPremios *contenedor_premios, int ano)
 {
 	//comprobar si existe
-	char direccion[LONGITUD_DIRECCION] = "docs/bin_files/sorteos";
+	char direccion[LONGITUD_DIRECCION] = DIRECCION_SORTEOS;
 	char anoToString[LONGITUD_DIRECCION];
 
 	sprintf(anoToString, "%d", ano);
 
+	strcat(direccion, "/");
 	strcat(direccion, anoToString);
-	strcat(direccion, ".dat");
+	strcat(direccion, EXT_BIN);
 
 	FILE* sorteo;
 
@@ -409,9 +412,10 @@ void guardarSorteo(arrPremios *contenedor_premios, const char *ano)
 {
 	const int marcaSeparacion = MARCA_SEPARACION;
 
-	char direccion[LONGITUD_DIRECCION] = "docs/bin_files/sorteos/";
+	char direccion[LONGITUD_DIRECCION] = DIRECCION_SORTEOS;
+	strcat(direccion, "/");
 	strcat(direccion, ano);
-	strcat(direccion, ".dat");
+	strcat(direccion, EXT_BIN);
 
 	//CREAR ARCHIVO
 	FILE* newFile = fopen(direccion, "wb");
@@ -436,15 +440,17 @@ void guardarColla(colla *collaActual)
 {
     int len;
     char nomficher[LONG_NOM_COLLA];
+	char direccion[LONGITUD_DIRECCION] = DIRECCION_COLLAS;
 
     FILE *fp;
 
 	quitarSalto(collaActual->nomcolla);
     
 	strcpy(nomficher, collaActual->nomcolla);
-    strcat(nomficher,".dat");
+    strcat(nomficher, EXT_BIN);
+	strcat(direccion, nomficher);
 
-    fp=fopen(nomficher,"wb");
+    fp=fopen(direccion,"wb");
 
     fwrite(&collaActual->ano,sizeof(int),1,fp);
     fwrite(&collaActual->numpersones,sizeof(int),1,fp);
@@ -465,14 +471,17 @@ void guardarColla(colla *collaActual)
     fclose(fp);
 }
 
-void leerColla(colla *collaLectura)
+bool leerColla(colla *collaLectura)
 {
     FILE *fp;
     int len;
     char nomficher[LONG_NOM_COLLA];
+	char direccion[LONGITUD_DIRECCION] = DIRECCION_COLLAS;
 	
     strcpy(nomficher, collaLectura->nomcolla);
-    strcat(nomficher,".dat");
+    strcat(nomficher, EXT_BIN);
+	strcat(direccion, "/");
+	strcat(direccion, nomficher);
 	
 
 	if(fp=fopen(nomficher,"rb"))
@@ -496,20 +505,22 @@ void leerColla(colla *collaLectura)
 		}
 
 		//La parte que viene a continuacion es para comprovar si lee correctamente la informacion.
+		//TODO BORRAR ESTO
 
-		printf("Nom: %s\nAny: %d\nNumPers:%d \nImportTot:%d \n", collaLectura->nomcolla, collaLectura->ano, collaLectura->numpersones, collaLectura->import_total);
+		// printf("Nom: %s\nAny: %d\nNumPers:%d \nImportTot:%d \n", collaLectura->nomcolla, collaLectura->ano, collaLectura->numpersones, collaLectura->import_total);
 	
-		for(int i=0;i<collaLectura->numpersones;i++)
-		{
-		//	quitar_Salto(collaLectura->persones[i].nom);
-			printf("Nom: [%s],NumLot: [%d],Import: [%d].\n", collaLectura->persones[i].nom, collaLectura->persones[i].numlot, collaLectura->persones[i].import);
-		}
+		// for(int i=0;i<collaLectura->numpersones;i++)
+		// {
+		// //	quitar_Salto(collaLectura->persones[i].nom);
+		// 	printf("Nom: [%s],NumLot: [%d],Import: [%d].\n", collaLectura->persones[i].nom, collaLectura->persones[i].numlot, collaLectura->persones[i].import);
+		// }
 
 		fclose(fp);
+		return true;
 	}
 	else
 	{
-		printf("No s'ha trobat la colla introduïda, si us plau torna a intentar-ho.\n");	
+		return false;
 	}
 	
 
@@ -534,13 +545,17 @@ void pushPersona(colla *collaActual)
 	int masGente=1;
 	char sino;
 	char nomficher[LONG_NOM_COLLA];
-    
-	strcpy(nomficher, collaActual->nomcolla);
-    strcat(nomficher,".dat");
-	
-	if(fopen(nomficher,"rb")){
-	leerColla(collaActual);}
 
+	//CARGA EL FICHERO EN MEMORIA
+	strcpy(nomficher, collaActual->nomcolla);
+    strcat(nomficher, EXT_BIN);
+	
+	if(fopen(nomficher,"rb"))
+	{
+		leerColla(collaActual);
+	}
+
+	//LECTURA E INTRODUCCION EN MEMORIA
 	while(masGente){
 		correcto=0;
 		importeCorrecto=0;
@@ -578,7 +593,17 @@ void pushPersona(colla *collaActual)
 			masGente=0;
 		}
 	}
+	//GUARDAR EL ARCHIVO
 	guardarColla(collaActual);
+}
+
+void pushPersona(colla *collaActual, char _nombre[LONG_NOM_PERSONA], int _numlot, int _import)
+{
+	quitarSalto(_nombre);
+	strcpy(collaActual->persones[collaActual->numpersones].nom, _nombre);
+	collaActual->persones[collaActual->numpersones].import = _import;
+	collaActual->persones[collaActual->numpersones].numlot = _numlot;
+	collaActual->numpersones++;
 }
 
 int checkUnique(char nombre[LONG_NOM_COLLA])
@@ -586,7 +611,7 @@ int checkUnique(char nombre[LONG_NOM_COLLA])
 	char nombrefichero[LONG_NOM_COLLA];
 	strcpy(nombrefichero,nombre);
 	quitarSalto(nombrefichero);
-	strcat(nombrefichero,".dat");
+	strcat(nombrefichero, EXT_BIN);
 
 	if(fp=fopen(nombrefichero,"rb"))
 	{
@@ -595,6 +620,37 @@ int checkUnique(char nombre[LONG_NOM_COLLA])
 	}
 	else
 	{
+		fclose(fp);
 		return 0;
 	}	
+}
+
+bool introducirPersonas(colla *collaActual)
+{
+
+	int _import;
+	char _nombre[LONG_NOM_PERSONA];
+	int _numlot;
+	int menu;
+	
+	printf("Introduce el nombre de la persona que quieres introducir: ");
+	fgets(&_nombre, LONG_NOM_PERSONA, stdin);
+	printf("Introdueix el seu nº de loteria: ");
+	scanf("%d" , &_numlot);
+	
+	do
+	{
+		printf("Itroduce el importe, recordando que ha de ser multiplo de 5 y ha de encontrarse entre 5 y 60: ");
+		scanf("%d" , &_import);
+		
+	} while(!(_import % 5 == 0 && _import >= 5 && _import <= 60));
+	
+	printf("Vols introduïr una altra persona a aquesta colla? S/N\n");
+	pushPersona(collaActual, _nombre, _numlot, _import);
+
+	printf("Introduzca 1 para salir cualquier otro numero para continuar introduciendo personas en este grupo");
+	scanf("%d" , &menu);
+	getchar();
+	
+	return menu == 1;
 }

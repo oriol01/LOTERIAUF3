@@ -8,6 +8,10 @@
 
 int main()
 {
+    //TODO implementar las frases para collas
+    //TODO separar push colla en las funciones correspondientes
+    //TODO menu
+
     int ano = -1;
     int anoPrevio;
 
@@ -92,10 +96,42 @@ int main()
         menu = INPUT;
         break;
 
-        case LEER_COLLA:
+        case COLLA:
+
+            //PREGUNTAR NOMBRE, CHECKEAR EXISTENCIA
+                //Y
+                    //CARGARLO EN MEMORIA, CARGAR EN MEMORIA EL SORTEO DE ESE AÑO
+                    //MOSTRAR POR PANTALLA
+                    //PREGUNTAR SI EXTRA GENTE
+                        //Y
+                            //INTRODUCIR EXTRA GENTE
+                        //N -> EXIT
+                //N
+                    //INTRODUCIR EXTRA GENTE
+                    //GUARDAR
+                    //MOSTRAR
+                    //PREGUNTAR SI MAS
+
+
             printf("Introdueïx el nom de la colla que vols llegir: ");
             fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
 			quitarSalto(collaActual.nomcolla);
+
+            if(leerColla(&collaActual))
+            {
+                //MOSTRAR POR PANTALLA
+                    //PREGUNTAR SI EXTRA GENTE
+                        //Y
+                            //INTRODUCIR EXTRA GENTE
+            }
+            else
+            {
+                //INTRODUCIR EXTRA GENTE
+                    //GUARDAR
+                    //MOSTRAR
+                    //PREGUNTAR SI MAS
+
+            }
 
             leerColla(&collaActual);
             menu=INPUT;

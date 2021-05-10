@@ -21,8 +21,7 @@ enum menu{
 	EXIT = 5,
 	INPUT = 0,
 	IDIOMA = 4,
-	LEER_COLLA = 3,
-	GUARDAR_COLLA = 2,
+	COLLA = 3,
 	SORTEO = 1
 };
 
