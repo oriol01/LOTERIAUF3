@@ -32,7 +32,7 @@ int main()
     int importeCorrecto=0;
     colla collaActual;
 
-    do
+    /*do
     {
         switch (menu)
         {
