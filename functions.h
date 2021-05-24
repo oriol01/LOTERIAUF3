@@ -8,7 +8,6 @@ void pushPremio(arrPremios* contenedorPremios, int _billete, int _premio);
 void premios_emparejamientos(int* premios, int* billetes, arrPremios* contenedorPremios, arrPremios* premiosGrandes);
 void reintegros(arrPremios* contenedor_premios, arrPremios* premios_grandes);
 premio buscar_premio (arrPremios* contenedorPremios, int tu_billete);
-void imprimirPremio (premio premio_a_imprimir, int decimos);
 
 //cabeceras de las funciones del proyecto uf3
 bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma [100]);
@@ -19,9 +18,8 @@ void guardarColla(colla *collaActual);
 bool leerColla(colla *collaLectura);
 void quitarSalto(char * nom);
 void pushPersona(colla *collaActual, char _nombre[LONG_NOM_PERSONA], int _numlot, int _import);
-int checkUnique(char nombre[LONG_NOM_COLLA]); //TODO haz que sea un bool
 void pushPersona(colla *collaActual, char _nombre[LONG_NOM_PERSONA], int _numlot, int _import);
-bool introducirPersonas(colla *collaActual);
-void printResults(colla *collaActual, arrPremios *numsPremios);
+bool introducirPersonas(colla *collaActual, char idioma[NUM_FRASES][FRASES_MAX_LEN]);
+void printResults(colla *collaActual, arrPremios *numsPremios, char idioma[NUM_FRASES][FRASES_MAX_LEN]);
 int sumaPremios(arrPremios *contenedor_premios, int billete);
 

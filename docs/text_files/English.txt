@@ -1,8 +1,7 @@
 1: RAFFLE
-2: CREATE GROUPS
-3: READ GROUPS
-4: SELECT LENGUAGE
-5: EXIT
+2: GROUPS
+3: SELECT LENGUAGE
+4: EXIT
 Choose one of the options shown above:
 Enter the year of the raffle you want to check: 
 Enter your ticket number: 
@@ -12,4 +11,11 @@ You entered a non-existing option, please introduce an option from the list abov
 Your ticket was not awarded any prize ;(
 The total sum of your awards is: 
 Your award is: 
- 
+Enter the name of the person you want to assaign to the group: 
+Enter the lotery ticket: 
+Enter the cuantity of money, remember it must be divisible by five and greater than 5 and lesser or equal to 60: 
+Enter 0 to exit, any other number will let you add more people to the group: 
+|    YEAR    | MEMBERS |    MONEY$    |     PRIZE      |
+|    NAME    | TICKET  |    MONEY$    |     PRIZE      |
+Enter the name of the group: 
+Enter the year of said group: 

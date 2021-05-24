@@ -8,9 +8,7 @@
 
 int main()
 {
-    //TODO implementar las frases para collas
-    //TODO separar push colla en las funciones correspondientes
-    //TODO menu
+  
 
     int ano = -1;
     int anoPrevio;
@@ -32,7 +30,7 @@ int main()
     int importeCorrecto=0;
     colla collaActual;
 
-    /*do
+    do
     {
         switch (menu)
         {
@@ -47,54 +45,23 @@ int main()
             getchar();
             break;
         
-        case IDIOMA:
+        case IDIOMA: 
             //selector idioma
             printf("Seleccione el idioma: \n"); 
             printf("\tEspañol\n");
+            printf("\tCatala\n");
+            printf("\tEnglish\n");
             scanf("%s", idiomaUser);
             
             if(cargarIdioma(idioma, idiomaUser) == false)
             {
-                printf("Error al introducir el idioma, error al introduïr l'idioma / Error when inputting the lenguage\n"); //IDIOMA_ERR
+                printf("Error al introducir el idioma, error al introduïr l'idioma / Error when inputting the lenguage\n");
                 menu = IDIOMA;
                 break;
             }
                 
             menu = INPUT;
             break;
-
-        // case GUARDAR_COLLA:
-        //     final=1;
-        //     while(final){
-        //         printf("Introdueix el nom de la colla: ");
-        //         fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
-
-        //         if(checkUnique(collaActual.nomcolla))
-        //         {
-        //             printf("El nom introduït ja existeix, torna a intentar-ho.\n");
-        //             final=0;
-        //         }
-        //         else
-        //         {
-        //             printf("A quin any esta participant aquesta colla? ");
-        //             scanf("%d" , &collaActual.ano);
-        //             getchar();
-        //             pushPersona(&collaActual);
-        //             printf("Vols introduïr una altra colla? S/N\n");
-        //             scanf("%c" , &sino);
-        //             switch (sino)
-        //             {
-        //             case 'n':
-        //                 final=0;
-        //             case 'N':
-        //                 final=0;  
-        //             default:
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // menu = INPUT;
-        // break;
 
         case COLLA:
 
@@ -113,9 +80,11 @@ int main()
                     //PREGUNTAR SI MAS
 
 
-            printf("Introdueïx el nom de la colla que vols llegir: ");
+            printf("%s", idioma[COLLES_INTRO_NOM]); //COLLAS_INTRO_NOM 
             fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
 			quitarSalto(collaActual.nomcolla);
+
+            
 
             if(leerColla(&collaActual))
             {
@@ -125,41 +94,39 @@ int main()
                             //INTRODUCIR EXTRA GENTE
 
                 cargarSorteo(&contenedor_premios, collaActual.ano);
-                printResults(&collaActual, &contenedor_premios);
-                printf("Desea introducir a mas personas, pulse 1 para hacerlo: ");
-                getchar();
+                printResults(&collaActual, &contenedor_premios, idioma);
+                printf("%s", idioma[INTRODUCIR_EXIT]); //FRASES::COLLAS_MAS_GENTE
+                //getchar();
                 scanf("%d", &masGente);
 
-                if(masGente == 1)
-                    while (introducirPersonas(&collaActual));
+                if(masGente == 1)//TODO bug, no te deja salir
+                    while (introducirPersonas(&collaActual, idioma));
             }
+
             else
             {
                 //INTRODUCIR EXTRA GENTE
                     //GUARDAR
                     //MOSTRAR
                     //PREGUNTAR SI MAS
+                masGente = 1;
+                printf("%s", idioma[COLLES_INTRO_ANO]);
+                scanf("%d", &collaActual.ano);
+
                 do{
-                    while(introducirPersonas(&collaActual));
-                    //MOSTRAR
+                    while(introducirPersonas(&collaActual, idioma));
                     getchar();
-                    printf("pulse 1 para introducir mas gente: ");
+                    printResults(&collaActual, &contenedor_premios, idioma);
+                    printf("%s", idioma[INTRODUCIR_EXIT]);//COLLES_MAS_GENTE
                     scanf("%d", &masGente);
-                } while (masGente == 1);
+                } while (masGente != 0);
                     
             }
 
             guardarColla(&collaActual);
             menu=INPUT;
             break;
-        /*
-        case PUSH_PERSONA:
-            printf("Introduce el nombre de la colla en el que quieres introducir una persona: ");
-            fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
-            pushPersona(&collaActual);
-            menu=INPUT;
-            break;
-        */
+        
         case SORTEO:
             //loop pedir billete
             do
@@ -182,7 +149,7 @@ int main()
                 premio_a_imprimir = buscar_premio(&contenedor_premios, tu_billete);
                 if (premio_a_imprimir.numPremios == 0)
                 {
-                    // Premio vacío.
+                    // Premio vacCOLLES_INTRO_NOMío.
                     printf("%s \n", idioma[NO_PREMIADO]); //NO_PREMIADO
                 } else
                 {
@@ -195,8 +162,6 @@ int main()
                     {
                         sum += premio_a_imprimir.premios_billete [i];
                     }
-                    
-                    // 2. Décimos.
                     billete_decimos = sum*(decimos/10);
 
                     // 3. Imprimir.	
