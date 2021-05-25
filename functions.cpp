@@ -429,15 +429,9 @@ void guardarColla(colla *collaActual)
 
     for(int i=0;i<collaActual->numpersones;i++)
     {
-        /*
-        len=strlen(collaActual->persones[i].nom);
-        fwrite(&len,sizeof(int),1,fp);
-        fwrite(collaActual->persones[i].nom,sizeof(char),len,fp);
-        fwrite(&collaActual->persones[i].numlot,sizeof(int),1,fp);
-        fwrite(&collaActual->persones[i].import,sizeof(int),1,fp);
-        */
        fwrite(&collaActual->persones[i],sizeof(struct persona),1,fp);
     }
+
     fclose(fp);
 }
 
@@ -500,6 +494,7 @@ void pushPersona(colla *collaActual, char _nombre[LONG_NOM_PERSONA], int _numlot
 	quitarSalto(_nombre);
 	strcpy(collaActual->persones[collaActual->numpersones].nom, _nombre);
 	collaActual->persones[collaActual->numpersones].import = _import;
+	collaActual->import_total+=_import;
 	collaActual->persones[collaActual->numpersones].numlot = _numlot;
 	collaActual->numpersones++;
 }
