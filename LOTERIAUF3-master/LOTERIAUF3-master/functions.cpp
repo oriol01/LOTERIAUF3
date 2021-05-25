@@ -257,6 +257,38 @@ premio buscar_premio (arrPremios* contenedorPremios, int tu_billete)
 	}
 }
 
+void imprimirPremio (premio premio_a_imprimir, int decimos)
+{
+	//TODO esto esta obsoleto diria
+
+	if (premio_a_imprimir.numPremios == 0)
+	{
+		// Premio vacío.
+		printf("Tu número no ha sido premiado ;( \n"); //NO_PREMIADO
+	} else
+	{
+		// Premio lleno.
+		// 1. Sumar premios.
+		int sum = 0;
+		int billete_decimos;
+
+		for (int i = 0; i< premio_a_imprimir.numPremios; i++)
+		{
+			sum += premio_a_imprimir.premios_billete [i];
+		}
+		
+		// 2. Décimos.
+		billete_decimos = sum*(decimos/10);
+
+		// 3. Imprimir.	
+		if (billete_decimos =! 10 && decimos >= 0)
+			printf("La suma total de los decimos premiados es: %d", billete_decimos);//SORTEO_VARIOS_PREMIOS
+		
+		else
+			printf("Tu premio es %d", billete_decimos); //SORTEO_UN_PREMIO
+	}
+}
+
 bool cargarIdioma(char contenedorIdioma[NUM_FRASES][FRASES_MAX_LEN], char idioma[LONGITUD_IDIOMA])
 {
 	char direccion[LONGITUD_DIRECCION] = DIRECCION_IDIOMAS;
@@ -429,9 +461,15 @@ void guardarColla(colla *collaActual)
 
     for(int i=0;i<collaActual->numpersones;i++)
     {
+        /*
+        len=strlen(collaActual->persones[i].nom);
+        fwrite(&len,sizeof(int),1,fp);
+        fwrite(collaActual->persones[i].nom,sizeof(char),len,fp);
+        fwrite(&collaActual->persones[i].numlot,sizeof(int),1,fp);
+        fwrite(&collaActual->persones[i].import,sizeof(int),1,fp);
+        */
        fwrite(&collaActual->persones[i],sizeof(struct persona),1,fp);
     }
-
     fclose(fp);
 }
 
@@ -468,6 +506,17 @@ bool leerColla(colla *collaLectura)
 
 		}
 
+		//La parte que viene a continuacion es para comprovar si lee correctamente la informacion.
+		//TODO BORRAR ESTO
+
+		// printf("Nom: %s\nAny: %d\nNumPers:%d \nImportTot:%d \n", collaLectura->nomcolla, collaLectura->ano, collaLectura->numpersones, collaLectura->import_total);
+	
+		// for(int i=0;i<collaLectura->numpersones;i++)
+		// {
+		// //	quitar_Salto(collaLectura->persones[i].nom);
+		// 	printf("Nom: [%s],NumLot: [%d],Import: [%d].\n", collaLectura->persones[i].nom, collaLectura->persones[i].numlot, collaLectura->persones[i].import);
+		// }
+
 		fclose(fp);
 		return true;
 	}
@@ -494,12 +543,30 @@ void pushPersona(colla *collaActual, char _nombre[LONG_NOM_PERSONA], int _numlot
 	quitarSalto(_nombre);
 	strcpy(collaActual->persones[collaActual->numpersones].nom, _nombre);
 	collaActual->persones[collaActual->numpersones].import = _import;
-	collaActual->import_total+=_import;
 	collaActual->persones[collaActual->numpersones].numlot = _numlot;
 	collaActual->numpersones++;
 }
 
-bool introducirPersonas(colla *collaActual, char idioma[NUM_FRASES][FRASES_MAX_LEN])
+int checkUnique(char nombre[LONG_NOM_COLLA])
+{	FILE *fp;
+	char nombrefichero[LONG_NOM_COLLA];
+	strcpy(nombrefichero,nombre);
+	quitarSalto(nombrefichero);
+	strcat(nombrefichero, EXT_BIN);
+
+	if(fp=fopen(nombrefichero,"rb"))
+	{
+		fclose(fp);
+		return 1;
+	}
+	else
+	{
+		fclose(fp);
+		return 0;
+	}	
+}
+
+bool introducirPersonas(colla *collaActual)
 {
 
 	int _import;
@@ -507,49 +574,50 @@ bool introducirPersonas(colla *collaActual, char idioma[NUM_FRASES][FRASES_MAX_L
 	int _numlot;
 	int menu;
 	
-	printf("%s", idioma[INTRODUCIR_NONBRE]);//FRASES::INTRODUCIR_NOMBRE 
 	getchar();
+	printf("Introduce el nombre de la persona que quieres introducir: ");
 	fgets(_nombre, LONG_NOM_PERSONA, stdin);
-	printf("%s", idioma[INTRODUCIR_LOTERIA]); //FRASES::INTRODUCIR_LOTERIA
+	printf("Introdueix el seu nº de loteria: ");
 	scanf("%d" , &_numlot);
-	getchar();
-
+	
 	do
 	{
-		printf("%s", idioma[INTRODUCIR_IMPORTE]);//FRASES::INTRODUCIR_IMPORTE 
+		printf("Itroduce el importe, recordando que ha de ser multiplo de 5 y ha de encontrarse entre 5 y 60: ");
 		scanf("%d" , &_import);
 		
 	} while(!(_import % 5 == 0 && _import >= 5 && _import <= 60));
 	
 	pushPersona(collaActual, _nombre, _numlot, _import);
 
-	printf("%s", idioma[INTRODUCIR_EXIT]);//FRASES::INTRODUCIR_EXIT 
+	printf("Introduzca 1 para salir cualquier otro numero para continuar introduciendo personas en este grupo: ");
 	scanf("%d" , &menu);
-	//getchar();
+	getchar();
 	
-	return menu != 0;
+	return menu != 1;
 }
 
-void printResults(colla *collaActual, arrPremios *numsPremios, char idioma[NUM_FRASES][FRASES_MAX_LEN])
+void printResults(colla *collaActual, arrPremios *numsPremios)
 {
 	int suma=0;
 	int sumTotal=0;
+	//leerColla(collaActual);
 	cargarSorteo(numsPremios, collaActual->ano);
 
 	for(int i=0;i<collaActual->numpersones;i++)
 	{
 		collaActual->persones[i].premio = sumaPremios(numsPremios, collaActual->persones[i].numlot);
-		suma += collaActual->persones[i].premio;
+		collaActual->import_total += collaActual->persones[i].premio;
+		suma+=collaActual->persones[i].import;
 	}
 
 	printf("+======================================================+\n");
 	printf("+------------------------------------------------------+\n");
-    printf("%s\n", idioma[RESULTS_CABECERA_SORTEO]);	//FRASES::RESULTS_CABECERA_SORTEO 
+    printf("|    ANY     | MEMBRES |    DINERS    |     PREMI      |\n");		// TODO tienen que ser modificables para que vaya en los distintos idiomas
 	printf("+------------------------------------------------------+\n");		// TENEMOS QUE HACER LA SUMA TOTAL DE PREMIOS DE LA COLLA
-    printf("|%-12d|%-9d|%-14d|%-16d|\n" , collaActual->ano,collaActual->numpersones,collaActual->import_total, suma);
+    printf("|%-12d|%-9d|%-14d|%-16d|\n" , collaActual->ano,collaActual->numpersones, suma, collaActual->import_total);
 	printf("+------------------------------------------------------+\n");
 	printf("+======================================================+\n");
-    printf("%s\n", idioma[RESULTS_CABECERA_PERSONAS]);	//FRASES::RESULTS_CABECERA_PERSONAS 
+    printf("|    NOM     | NUMERO  |    DINERS    |     PREMI      |\n");
 	printf("+======================================================+\n");
 	for(int i=0;i<collaActual->numpersones;i++)
 	{					// CHECKEAR SI ALGUNO DE LOS RESULTADOS COINCIDE CON EL DE LOS MIEMBROS DE COLLA.						

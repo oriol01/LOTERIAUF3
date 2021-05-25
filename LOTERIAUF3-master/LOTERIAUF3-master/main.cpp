@@ -8,7 +8,7 @@
 
 int main()
 {
-  
+    //TODO implementar las frases para collas
 
     int ano = -1;
     int anoPrevio;
@@ -45,23 +45,54 @@ int main()
             getchar();
             break;
         
-        case IDIOMA: 
+        case IDIOMA:
             //selector idioma
             printf("Seleccione el idioma: \n"); 
             printf("\tEspañol\n");
-            printf("\tCatala\n");
-            printf("\tEnglish\n");
             scanf("%s", idiomaUser);
             
             if(cargarIdioma(idioma, idiomaUser) == false)
             {
-                printf("Error al introducir el idioma, error al introduïr l'idioma / Error when inputting the lenguage\n");
+                printf("Error al introducir el idioma, error al introduïr l'idioma / Error when inputting the lenguage\n"); //IDIOMA_ERR
                 menu = IDIOMA;
                 break;
             }
                 
             menu = INPUT;
             break;
+
+        // case GUARDAR_COLLA:
+        //     final=1;
+        //     while(final){
+        //         printf("Introdueix el nom de la colla: ");
+        //         fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
+
+        //         if(checkUnique(collaActual.nomcolla))
+        //         {
+        //             printf("El nom introduït ja existeix, torna a intentar-ho.\n");
+        //             final=0;
+        //         }
+        //         else
+        //         {
+        //             printf("A quin any esta participant aquesta colla? ");
+        //             scanf("%d" , &collaActual.ano);
+        //             getchar();
+        //             pushPersona(&collaActual);
+        //             printf("Vols introduïr una altra colla? S/N\n");
+        //             scanf("%c" , &sino);
+        //             switch (sino)
+        //             {
+        //             case 'n':
+        //                 final=0;
+        //             case 'N':
+        //                 final=0;  
+        //             default:
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // menu = INPUT;
+        // break;
 
         case COLLA:
 
@@ -80,11 +111,9 @@ int main()
                     //PREGUNTAR SI MAS
 
 
-            printf("%s", idioma[COLLES_INTRO_NOM]); //COLLAS_INTRO_NOM 
+            printf("Introdueïx el nom de la colla que vols llegir: ");
             fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
 			quitarSalto(collaActual.nomcolla);
-
-            
 
             if(leerColla(&collaActual))
             {
@@ -93,43 +122,56 @@ int main()
                         //Y
                             //INTRODUCIR EXTRA GENTE
 
-                cargarSorteo(&contenedor_premios, collaActual.ano);
-                printResults(&collaActual, &contenedor_premios, idioma);
-                printf("%s", idioma[INTRODUCIR_EXIT]); //FRASES::COLLAS_MAS_GENTE
-                //getchar();
-                scanf("%d", &masGente);
+                // cargarSorteo(&contenedor_premios, collaActual.ano);
+                // printResults(&collaActual, &contenedor_premios);
+                // printf("Desea introducir a mas personas, pulse 1 para hacerlo: ");
+                // getchar();
+                // scanf("%d", &masGente);
 
-                if(masGente == 1)//TODO bug, no te deja salir
-                    while (introducirPersonas(&collaActual, idioma));
+                do{
+                    printResults(&collaActual, &contenedor_premios);
+                    printf("pulse 1 para introducir mas gente: ");
+                    scanf("%d", &masGente);
+                    if(masGente == 1)
+                        while (introducirPersonas(&collaActual))
+                        {
+                            /* code */
+                        }
+                        
+                } while (masGente == 1);
             }
-
             else
             {
                 //INTRODUCIR EXTRA GENTE
                     //GUARDAR
                     //MOSTRAR
                     //PREGUNTAR SI MAS
-                masGente = 1;
-                printf("%s", idioma[COLLES_INTRO_ANO]);
-                scanf("%d", &collaActual.ano);
-
+                printf("Introduce el año en el que participa el grupo: ");
+                scanf("%d", &(collaActual.ano));
+                getchar();
+                
                 do{
-                    while(introducirPersonas(&collaActual, idioma));
-                    getchar();
-                    printResults(&collaActual, &contenedor_premios, idioma);
-                    printf("%s", idioma[INTRODUCIR_EXIT]);//COLLES_MAS_GENTE
+                    while(introducirPersonas(&collaActual));
+                    //MOSTRAR
+                    cargarSorteo(&contenedor_premios, collaActual.ano);//INNECESARIO
+                    printResults(&collaActual, &contenedor_premios);
+                    printf("pulse 1 para introducir mas gente: ");
                     scanf("%d", &masGente);
-                } while (masGente != 0);
+                } while (masGente == 1);
                     
             }
 
             guardarColla(&collaActual);
             menu=INPUT;
-            collaActual.numpersones = 0;
-	        collaActual.import_total = 0;
-
             break;
-        
+        /*
+        case PUSH_PERSONA:
+            printf("Introduce el nombre de la colla en el que quieres introducir una persona: ");
+            fgets(collaActual.nomcolla, LONG_NOM_COLLA, stdin);
+            pushPersona(&collaActual);
+            menu=INPUT;
+            break;
+        */
         case SORTEO:
             //loop pedir billete
             do
@@ -152,7 +194,7 @@ int main()
                 premio_a_imprimir = buscar_premio(&contenedor_premios, tu_billete);
                 if (premio_a_imprimir.numPremios == 0)
                 {
-                    // Premio vacCOLLES_INTRO_NOMío.
+                    // Premio vacío.
                     printf("%s \n", idioma[NO_PREMIADO]); //NO_PREMIADO
                 } else
                 {
@@ -165,6 +207,8 @@ int main()
                     {
                         sum += premio_a_imprimir.premios_billete [i];
                     }
+                    
+                    // 2. Décimos.
                     billete_decimos = sum*(decimos/10);
 
                     // 3. Imprimir.	

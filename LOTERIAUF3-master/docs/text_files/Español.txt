@@ -11,3 +11,11 @@ Ha introducido una opcion inexistente, introduzca una opcion mostrada por pantal
 Tu número no ha sido premiado ;( 
 La suma total de los decimos premiados es: 
 Tu premio es: 
+Introduce el nombre de la persona que quieres introducir: 
+Introduce el numero de loteria: 
+Itroduce el importe, recordando que ha de ser multiplo de 5 y ha de encontrarse entre 5 y 60: 
+Introduzca 0 para salir cualquier otro numero para continuar introduciendo personas en este grupo: 
+|    AÑO     |MIEMBROS |    DINERO    |    PREMI0      |
+|    NOM     | NUMERO  |    DINERO    |    PREMI0      |
+Introduce el nombre del grupo que quiere leer: 
+Introduzca el año del grupo: 
